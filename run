@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+
+COLOR_CYAN="\033[0;36m"
+COLOR_RED="\033[0;31m"
+COLOR_GREEN="\033[1;32m"
+COLOR_NORMAL="\033[0m"
+
+RUNNER_DIR=`dirname $0`
+
+TESTS_RUN=0
+TEST_FAILURES=()
+CURRENT_TEST='<none>'
+CURRENT_TEST_FAILED=1
+
+##### Core definitions
+function doMarkProgress() {
+  if [[ "$CURRENT_TEST_FAILED" == "0" ]]; then
+    echo -ne "$COLOR_GREEN"✓"$COLOR_NORMAL"
+  fi
+  CURRENT_TEST_FAILED=0
+}
+
+function failWithMessage() {
+  TEST_FAILURES+=("$1")
+  if [[ "$CURRENT_TEST_FAILED" == 0 ]]; then
+    echo -ne "$COLOR_RED"✗"$COLOR_NORMAL"
+    CURRENT_TEST_FAILED=1
+  fi
+}
+
+function describe() {
+  SUBJECT="$1"
+}
+
+function it() {
+  SPEC_DESC="$1"
+  CURRENT_TEST="$SUBJECT/$SPEC_DESC"
+  doMarkProgress
+  (( TESTS_RUN += 1 ))
+}
+
+function expect() {
+  EXAMPLE_DESC="$1"
+  EXAMPLE=$1
+}
+
+function expectResult() {
+  EXAMPLE_DESC="$1"
+  EXAMPLE=$($1)
+}
+
+function expectJQ() {
+  EXAMPLE_DESC="JSON$1"
+  EXAMPLE=$(echo "$JSON_RESP" | jq $1) 
+}
+
+function requestJQ() {
+  echo "$JSON_REQ" | jq $1
+}
+
+function toBe() {
+  if [[ "$EXAMPLE" != "$1" ]]; then
+    failWithMessage "$SUBJECT $SPEC_DESC:\n\texpected $EXAMPLE_DESC to be $1 (got $EXAMPLE)"
+  fi
+}
+
+function notToBe() {
+  if [[ "$EXAMPLE" == "$1" ]]; then
+    failWithMessage "$SUBJECT $SPEC_DESC:\n\texpected $EXAMPLE_DESC not to be $1 (got $EXAMPLE)"
+  fi
+}
+
+#####
+
+source $RUNNER_DIR/test/spec_helper.sh
+
+#####
+
+echo "Running $RUNNER_DIR/test/suite"
+source $RUNNER_DIR/test/suite
+
+doMarkProgress
+
+echo ""
+echo "ran $TESTS_RUN tests, ${#TEST_FAILURES[*]} failures"
+echo ""
+for i in "${TEST_FAILURES[@]}"
+do
+   echo -e "$i"
+done

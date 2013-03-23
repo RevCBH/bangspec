@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+describe "toBe"
+  it "should succeed with identical strings"
+    testString="foo"
+    expect $testString; toBe $testString
+
+  #it "should fail with different strings"
+    #expect "foo"; toBe "bar"
+
+describe "notToBe" 
+  it "should succeed with different strings"
+    expect "foo"; notToBe "bar"
+
+  #it "should fail with idential strings"
+    #testString="foo"
+    #result=$(expect $testString; notToBe $testString)
+    #expect $result; notToBe "."
