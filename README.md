@@ -1,15 +1,15 @@
 bangspec
 ========
 
-BDD? In *my* bash?
+BDD? In *my* shell scripts?
 
 But Why?
 ========
 
 I wanted to easily test the JSON RPC interface of
 [Bitcoin](https://github.com/bitcoin/bitcoin), specifically new methods
-as I added them. The most straightforward to test E2E seemed to use curl
-to send a JSON request and then check the response (made easier by the
+as I added them. The most straightforward way to test E2E seemed to be
+using curl to send a JSON request and then check the response (made easier by the
 fabulous [jq](http://stedolan.github.com/jq/)). Plus, I really don't
 know how to use bash very well and it was a good excuse to learn.
 
