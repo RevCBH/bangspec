@@ -1,21 +1,22 @@
+# TODO - Add support for testing failure of test instead of having the
+# test fail
+
 describe "toBe"
   it "should succeed with identical strings"
     testString="foo"
     expect $testString; toBe $testString
 
-  # TODO - Add support for testing failure of test
-  #it "should fail with different strings"
-    #expect "foo"; toBe "bar"
+  it "should fail with different strings"
+    expect "foo"; toBe "bar"
 
 describe "notToBe" 
   it "should succeed with different strings"
     expect "foo"; notToBe "bar"
 
-  #it "should fail with idential strings"
-    #testString="foo"
-    #result=$(expect $testString; notToBe $testString)
-    #expect $result; notToBe "."
+  it "should fail with identical strings"
+    testString="foo"
+    expect $testString; notToBe $testString
 
 describe "expectResult"
   it "should capture the output of a provided command"
-    expectResult 'echo "foo"'; toBe "foo"
+    expectResult 'echo foo'; toBe "foo"
