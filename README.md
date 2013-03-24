@@ -19,7 +19,7 @@ bits.
 Usage
 =====
 
-    > run test/suite
+    > ./run test/suite
 
 This will setup the core functions used (describe, it, expect, etc.) and
 then source test/spec_helper.sh before sourcing the test/suite file

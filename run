@@ -46,7 +46,8 @@ function expect() {
 
 function expectResult() {
   EXAMPLE_DESC="$1"
-  EXAMPLE=$($1)
+  EXAMPLE=$(eval $1)
+  #eval $1 | read EXAMPLE
 }
 
 function expectJQ() {

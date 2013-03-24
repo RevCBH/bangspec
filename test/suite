@@ -1,10 +1,9 @@
-#!/usr/bin/env bash
-
 describe "toBe"
   it "should succeed with identical strings"
     testString="foo"
     expect $testString; toBe $testString
 
+  # TODO - Add support for testing failure of test
   #it "should fail with different strings"
     #expect "foo"; toBe "bar"
 
@@ -16,3 +15,7 @@ describe "notToBe"
     #testString="foo"
     #result=$(expect $testString; notToBe $testString)
     #expect $result; notToBe "."
+
+describe "expectResult"
+  it "should capture the output of a provided command"
+    expectResult 'echo "foo"'; toBe "foo"
